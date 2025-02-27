@@ -1,0 +1,6 @@
+std = "2.0.0"
+
+no_miscellaneous_limits = true
+no_sprite_fencing = true
+frame_interpolation = false
+high_quality_pen = false
