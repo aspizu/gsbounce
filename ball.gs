@@ -5,9 +5,7 @@
 costumes "assets/ball.png", "assets/ball_dead.png";
 sounds "assets/ball_death.mp3";
 
-list LDTKEntity data = sh ```
-jq -r '.entities.ball[] | .[]' "level/simplified/Level_0/data.json"
-```;
+set_layer_order 3;
 
 onflag {
     broadcast "setup";
@@ -29,9 +27,8 @@ on "spawn" {
 on "death" {
     lives--;
     switch_costume "ball_dead";
-    start_sound "ball_death";
     stop_other_scripts;
-    wait 0.5;
+    play_sound_until_done "ball_death";
     if lives == 0 {
         broadcast "setup";
     } else {
@@ -40,8 +37,8 @@ on "death" {
 }
 
 proc setup {
-    checkpoint_x = data[1].x;
-    checkpoint_y = LEVEL_HEIGHT - data[1].y;
+    checkpoint_x = level_ball[level].x;
+    checkpoint_y = level_heights[level] - level_ball[level].y;
     lives = 3;
 }
 

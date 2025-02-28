@@ -1,11 +1,8 @@
 %include lib/game_object
 %include lib/ldtk
+%include defs/dims
 costumes "assets/ring.png", "assets/ring_collected.png";
 sounds "assets/ring_collect.mp3";
-
-list LDTKEntity data = sh ```
-jq -r '.entities.ring[] | .[]' "level/simplified/level_0/data.json"
-```;
 
 proc create_object x, y {
     x = $x;
@@ -16,14 +13,10 @@ proc create_object x, y {
 }
 
 proc setup {
-    costume_width = data[1].width;
-    costume_height = data[1].height;
+    costume_width = ring_width;
+    costume_height = ring_height;
     rings_remaining = 0;
-    local i = 1;
-    repeat length(data) {
-        create_object data[i].x, LEVEL_HEIGHT - data[i].y;
-        i++;
-    }
+    LDTK_CREATE_OBJECTS(level_ring, level_ring_lens)
 }
 
 proc spawn {}
