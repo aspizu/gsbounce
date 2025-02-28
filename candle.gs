@@ -3,6 +3,8 @@
 %include defs/dims
 costumes "assets/candle.png";
 
+set_layer_order 3;
+
 proc create_object x, y {
     x = $x;
     y = $y;

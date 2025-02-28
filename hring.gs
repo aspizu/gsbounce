@@ -4,6 +4,8 @@
 costumes "assets/hring.png", "assets/hring_collected.png";
 sounds "assets/ring_collect.mp3";
 
+set_layer_order 3;
+
 proc create_object x, y {
     x = $x;
     y = $y;
@@ -15,7 +17,6 @@ proc create_object x, y {
 proc setup {
     costume_width = hring_width;
     costume_height = hring_height;
-    rings_remaining = 0;
     LDTK_CREATE_OBJECTS(level_hring, level_hring_lens)
 }
 

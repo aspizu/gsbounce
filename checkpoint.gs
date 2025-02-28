@@ -4,6 +4,8 @@
 costumes "assets/checkpoint.png", "assets/checkpoint_collected.png";
 sounds "assets/checkpoint_collect.mp3";
 
+set_layer_order 3;
+
 proc create_object x, y {
     x = $x;
     y = $y;
@@ -23,8 +25,8 @@ proc render {
     if touching("ball") and not is_collected {
         start_sound "checkpoint_collect";
         switch_costume "checkpoint_collected";
-        checkpoint_x = x + costume_width/2;
-        checkpoint_y = y + costume_height/2;
+        checkpoint_x = x;
+        checkpoint_y = y;
         is_collected = true;
     }
 }

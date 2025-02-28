@@ -4,6 +4,8 @@
 costumes "assets/life.png";
 sounds "assets/life_collect.mp3";
 
+set_layer_order 3;
+
 proc create_object x, y {
     x = $x;
     y = $y;

@@ -5,7 +5,7 @@
 costumes "assets/ball.png", "assets/ball_dead.png";
 sounds "assets/ball_death.mp3";
 
-set_layer_order 3;
+set_layer_order 4;
 
 onflag {
     broadcast "setup";
@@ -14,6 +14,10 @@ onflag {
 on "setup" {
     setup;
     broadcast "spawn";
+}
+
+on "reset" {
+    rings_remaining = 0;
 }
 
 on "spawn" {
@@ -46,8 +50,8 @@ proc setup {
 
 proc spawn {
     switch_costume "ball";
-    x = checkpoint_x;
-    y = checkpoint_y;
+    x = checkpoint_x + 7;
+    y = checkpoint_y + 5;
     vel_x = 0;
     vel_y = 0;
     camera_x = x;
