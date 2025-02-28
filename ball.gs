@@ -28,7 +28,8 @@ on "death" {
     lives--;
     switch_costume "ball_dead";
     stop_other_scripts;
-    play_sound_until_done "ball_death";
+    start_sound "ball_death";
+    wait 0.5;
     if lives == 0 {
         broadcast_and_wait "reset";
         broadcast "setup";
