@@ -16,6 +16,18 @@ on "setup" {
     broadcast "spawn";
 }
 
+on "levelup" {
+    if level < length(level_widths) {
+        level++;
+    } else {
+        level = 1;
+    }
+    stop_other_scripts;
+    wait 0.5;
+    broadcast_and_wait "reset";
+    broadcast "setup";
+}
+
 on "reset" {
     rings_remaining = 0;
 }
