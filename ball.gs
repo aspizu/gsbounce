@@ -22,6 +22,7 @@ on "reset" {
 
 on "spawn" {
     spawn;
+    broadcast_and_wait "render";
     forever {
         broadcast "render";
         render;
