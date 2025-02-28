@@ -5,8 +5,10 @@ proc position {
 }
 
 on "render" {
-    position;
-    render;
+    if id > 0 {
+        position;
+        render;
+    }
 }
 
 on "setup" {
