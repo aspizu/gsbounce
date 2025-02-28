@@ -30,6 +30,7 @@ on "death" {
     stop_other_scripts;
     play_sound_until_done "ball_death";
     if lives == 0 {
+        broadcast_and_wait "reset";
         broadcast "setup";
     } else {
         broadcast "spawn";
