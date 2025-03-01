@@ -143,6 +143,12 @@ doc = Document("level_bg", defs_path)
 for level in project.levels:
     doc.create_costume(f"level/simplified/{level.identifier}/_bg.png", level.identifier)
 
+doc = Document("level_decor", defs_path)
+for level in project.levels:
+    doc.create_costume(
+        f"level/simplified/{level.identifier}/decor.png", level.identifier
+    )
+
 doc = Document("level_data", defs_path)
 doc.create_list("level_widths", [level.px_wid for level in project.levels])
 doc.create_list("level_heights", [level.px_hei for level in project.levels])
