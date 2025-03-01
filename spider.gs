@@ -10,7 +10,7 @@ proc create_object spider_entity entity {
     start_x = $entity.x;
     start_y = level_heights[level] - $entity.y;
     end_x = $entity.end_x*12;
-    end_y = level_heights[level] - ($entity.end_y + 2)*12;
+    end_y = level_heights[level] - ($entity.end_y + 1)*12;
     dist = DIST(start_x, start_y, end_x, end_y);
 }
 
