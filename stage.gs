@@ -1,7 +1,7 @@
 %include defs/level_data
 costumes "blank.svg";
 
-struct Entity { x, y };
+struct array2 { ptr, len };
 
 var camera_x = 0;
 var camera_y = 0;

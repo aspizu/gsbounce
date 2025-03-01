@@ -2,6 +2,7 @@ import itertools
 import json
 import shutil
 from pathlib import Path
+from typing import Any
 
 import matplotlib.colors as mcolors
 import numpy as np
@@ -10,6 +11,34 @@ import PIL.Image
 import ldtk
 
 cwd = Path.cwd()
+
+
+class Struct:
+    def __init__(self, signature: str):
+        self.fields = {}
+        for line in signature.split(","):
+            name, type_name = line.split(":")
+            self.fields[name] = type_name
+
+    def to_gs(self, type_name: str) -> str:
+        f = []
+        for name, type_name in self.fields.items():
+            if type_name == "str":
+                f.append(name)
+            elif type_name == "point":
+                f.append(f"{name}_x")
+                f.append(f"{name}_y")
+        return f"struct {type_name} {{ {', '.join(f)} }}"
+
+    def flatten(self, data: Any) -> list[object]:
+        d = []
+        for name, type_name in self.fields.items():
+            if type_name == "str":
+                d.append(data[name])
+            elif type_name == "point":
+                d.append(data[name]["cx"])
+                d.append(data[name]["cy"])
+        return d
 
 
 class Document:
@@ -26,6 +55,22 @@ class Document:
             f"list {'' if type_name is None else type_name + ' '}{list_name} = file ```{
                 data_path.absolute().as_posix()
             }```;\n"
+        )
+
+    def create_array2(
+        self, array_name: str, lists: list[list[object]], type_name: str | None = None
+    ) -> None:
+        data = []
+        ptr = 1
+        for sublist in lists:
+            data.append(ptr)
+            data.append(len(sublist))
+            ptr += len(sublist)
+        self.create_list(array_name, data, type_name="array2")
+        self.create_list(
+            array_name + "_data",
+            list(itertools.chain(*lists)),
+            type_name=type_name,
         )
 
     def create_var(self, var_name: str, value: object) -> None:
@@ -98,16 +143,30 @@ levels = [
     for level in project.levels
 ]
 
-for entity in project.defs.entities:
-    entity_type = entity.identifier
+types = {
+    "ball": Struct("x:str,y:str"),
+    "exit": Struct("x:str,y:str"),
+    "candle": Struct("x:str,y:str"),
+    "ring": Struct("x:str,y:str"),
+    "hring": Struct("x:str,y:str"),
+    "life": Struct("x:str,y:str"),
+    "checkpoint": Struct("x:str,y:str"),
+    "spider": Struct("x:str,y:str,end:point"),
+}
+
+for entity_type, entity_struct in types.items():
     level__entities = [level["entities"].get(entity_type, []) for level in levels]
     doc.create_list(
         f"level_{entity_type}_lens",
         [len(entities) for entities in level__entities],
     )
     entities = list(itertools.chain(*level__entities))
-    doc.create_list(
+    type_name = f"{entity_type}_entity"
+    doc.create_array2(
         f"level_{entity_type}",
-        list(itertools.chain(*((entity["x"], entity["y"]) for entity in entities))),
-        type_name="Entity",
+        [
+            entity_struct.flatten({**entity, **entity["customFields"]})
+            for entity in entities
+        ],
+        type_name=type_name,
     )
