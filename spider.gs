@@ -4,7 +4,7 @@
 %include defs/dims
 costumes "assets/spider.png";
 
-set_layer_order 3;
+set_layer_order 4;
 
 proc create_object spider_entity entity {
     start_x = $entity.x;

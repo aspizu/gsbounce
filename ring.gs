@@ -4,7 +4,7 @@
 costumes "assets/ring.png", "assets/ring_collected.png";
 sounds "assets/ring_collect.mp3";
 
-set_layer_order 3;
+set_layer_order 4;
 
 proc create_object ring_entity entity {
     is_collected = false;

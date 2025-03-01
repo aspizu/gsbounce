@@ -1,7 +1,7 @@
 %include lib/game_object
 %include defs/level_decor
 
-set_layer_order 1;
+set_layer_order 2;
 
 proc create_object x, y {
     x = $x;

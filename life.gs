@@ -4,7 +4,7 @@
 costumes "assets/life.png";
 sounds "assets/life_collect.mp3";
 
-set_layer_order 3;
+set_layer_order 4;
 
 proc create_object life_entity entity {
 }

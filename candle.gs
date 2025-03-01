@@ -3,7 +3,7 @@
 %include defs/dims
 costumes "assets/candle.png";
 
-set_layer_order 3;
+set_layer_order 4;
 
 proc create_object candle_entity entity {
 }

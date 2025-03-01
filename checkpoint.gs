@@ -4,7 +4,7 @@
 costumes "assets/checkpoint.png", "assets/checkpoint_collected.png";
 sounds "assets/checkpoint_collect.mp3";
 
-set_layer_order 3;
+set_layer_order 4;
 
 proc create_object checkpoint_entity entity {
     is_collected = false;

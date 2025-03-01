@@ -7,7 +7,7 @@ sounds "assets/ball_death.mp3";
 
 %define touching_solid() (touching("level") or touching("exit"))
 
-set_layer_order 4;
+set_layer_order 5;
 
 onflag {
     broadcast_and_wait "reset";
