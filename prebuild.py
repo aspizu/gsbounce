@@ -20,7 +20,7 @@ class Struct:
             name, type_name = line.split(":")
             self.fields[name] = type_name
 
-    def to_gs(self, type_name: str) -> str:
+    def to_gs(self, stype_name: str) -> str:
         f = []
         for name, type_name in self.fields.items():
             if type_name == "str":
@@ -28,7 +28,10 @@ class Struct:
             elif type_name == "point":
                 f.append(f"{name}_x")
                 f.append(f"{name}_y")
-        return f"struct {type_name} {{ {', '.join(f)} }}"
+        return f"struct {stype_name} {{ {', '.join(f)} }}"
+
+    def __len__(self) -> int:
+        return self.to_gs("").count(",") + 1
 
     def flatten(self, data: Any) -> list[object]:
         d = []
@@ -58,14 +61,19 @@ class Document:
         )
 
     def create_array2(
-        self, array_name: str, lists: list[list[object]], type_name: str | None = None
+        self,
+        array_name: str,
+        lists: list[list[object]],
+        type_name: str | None = None,
+        struct: Struct | None = None,
     ) -> None:
         data = []
         ptr = 1
         for sublist in lists:
+            length = len(sublist) if struct is None else len(sublist) // len(struct)
             data.append(ptr)
-            data.append(len(sublist))
-            ptr += len(sublist)
+            data.append(length)
+            ptr += length
         self.create_list(array_name, data, type_name="array2")
         self.create_list(
             array_name + "_data",
@@ -155,18 +163,22 @@ types = {
 }
 
 for entity_type, entity_struct in types.items():
-    level__entities = [level["entities"].get(entity_type, []) for level in levels]
-    doc.create_list(
-        f"level_{entity_type}_lens",
-        [len(entities) for entities in level__entities],
-    )
-    entities = list(itertools.chain(*level__entities))
+    levels__entities = [level["entities"].get(entity_type, []) for level in levels]
     type_name = f"{entity_type}_entity"
+    doc.file.write(entity_struct.to_gs(type_name) + "\n")
     doc.create_array2(
         f"level_{entity_type}",
         [
-            entity_struct.flatten({**entity, **entity["customFields"]})
-            for entity in entities
+            list(
+                itertools.chain(
+                    *(
+                        entity_struct.flatten({**entity, **entity["customFields"]})
+                        for entity in entities
+                    )
+                )
+            )
+            for entities in levels__entities
         ],
         type_name=type_name,
+        struct=entity_struct,
     )

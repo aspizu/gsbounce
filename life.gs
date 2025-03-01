@@ -6,16 +6,13 @@ sounds "assets/life_collect.mp3";
 
 set_layer_order 3;
 
-proc create_object x, y {
-    x = $x;
-    y = $y;
-    new_object;
+proc create_object life_entity entity {
 }
 
 proc setup {
     costume_width = life_width;
     costume_height = life_height;
-    LDTK_CREATE_OBJECTS(level_life, level_life_lens)
+    LDTK_CREATE_OBJECTS(level_life)
 }
 
 proc spawn {}

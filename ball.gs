@@ -5,9 +5,12 @@
 costumes "assets/ball.png", "assets/ball_dead.png";
 sounds "assets/ball_death.mp3";
 
+%define touching_solid() (touching("level") or touching("exit"))
+
 set_layer_order 4;
 
 onflag {
+    broadcast_and_wait "reset";
     broadcast "setup";
 }
 
@@ -35,9 +38,11 @@ on "reset" {
 on "spawn" {
     spawn;
     broadcast_and_wait "render";
+    time = 0;
     forever {
         broadcast "render";
         render;
+        time++;
     }
 }
 
@@ -56,8 +61,8 @@ on "death" {
 }
 
 proc setup {
-    checkpoint_x = level_ball[level].x;
-    checkpoint_y = level_heights[level] - level_ball[level].y;
+    checkpoint_x = level_ball_data[level_ball[level].ptr].x;
+    checkpoint_y = level_ball_data[level_ball[level].ptr].y;
     lives = 3;
 }
 
@@ -110,31 +115,31 @@ proc position {
 proc move_x dx {
     x += $dx;
     position;
-    if touching("level") {
+    if touching_solid() {
         local i = 1;
-        until not touching("level") or i > SLOPE {
+        until not touching_solid() or i > SLOPE {
             y += 1;
             position;
             i++;
         }
-        if not touching("level") {
+        if not touching_solid() {
             stop_this_script;
         }
         y -= SLOPE;
         position;
         local i = 1;
-        until not touching("level") or i > SLOPE {
+        until not touching_solid() or i > SLOPE {
             y -= 1;
             position;
             i++;
         }
-        if not touching("level") {
+        if not touching_solid() {
             stop_this_script;
         }
         y += SLOPE;
         position;
         vel_x *= -0.5;
-        until not touching("level") {
+        until not touching_solid() {
             if $dx > 0 {
                 x -= 1;
             } else {
@@ -151,13 +156,13 @@ proc move_y dy {
     }
     y += $dy;
     position;
-    if touching("level") {
+    if touching_solid() {
         if abs(vel_y) > 2 {
             vel_y *= -0.5;
         } else {
             vel_y = 0;
         }
-        until not touching("level") {
+        until not touching_solid() {
             if $dy > 0 {
                 y -= 1;
             } else {

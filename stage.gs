@@ -10,3 +10,4 @@ var checkpoint_x = 0;
 var checkpoint_y = 0;
 var lives = 3;
 var level = 1;
+var time = 0;

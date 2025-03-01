@@ -6,18 +6,15 @@ sounds "assets/ring_collect.mp3";
 
 set_layer_order 3;
 
-proc create_object x, y {
-    x = $x;
-    y = $y;
+proc create_object ring_entity entity {
     is_collected = false;
     rings_remaining++;
-    new_object;
 }
 
 proc setup {
     costume_width = ring_width;
     costume_height = ring_height;
-    LDTK_CREATE_OBJECTS(level_ring, level_ring_lens)
+    LDTK_CREATE_OBJECTS(level_ring)
 }
 
 proc spawn {}

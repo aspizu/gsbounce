@@ -1,11 +1,9 @@
-%define LDTK_CREATE_OBJECTS(LIST,LENS)                                                 \
-    local i = 1;                                                                       \
-    local j = 1;                                                                       \
-    repeat level-1 {                                                                   \
-        i += LENS[j];                                                                  \
-        j++;                                                                           \
-    }                                                                                  \
-    repeat LENS[level] {                                                               \
-        create_object LIST[i].x, level_heights[level] - LIST[i].y;                     \
+%define LDTK_CREATE_OBJECTS(TYPE)                                                      \
+    local i = TYPE[level].ptr;                                                         \
+    repeat TYPE[level].len {                                                           \
+        create_object __xxCONCAT__ TYPE _data [i];                                     \
+        x = __xxCONCAT__ TYPE _data [i].x;                                             \
+        y = level_heights[level] - __xxCONCAT__ TYPE _data [i].y;                      \
+        new_object;                                                                    \
         i++;                                                                           \
     }

@@ -5,16 +5,13 @@ costumes "assets/exit.png", "assets/exit_closed.png";
 
 set_layer_order 3;
 
-proc create_object x, y {
-    x = $x;
-    y = $y;
-    new_object;
+proc create_object exit_entity entity {
 }
 
 proc setup {
     costume_width = exit_width;
     costume_height = exit_height;
-    LDTK_CREATE_OBJECTS(level_exit, level_exit_lens)
+    LDTK_CREATE_OBJECTS(level_exit)
 }
 
 proc spawn {}
@@ -22,9 +19,11 @@ proc spawn {}
 proc render {
     if rings_remaining == 0 {
         switch_costume "exit";
+        change_x -1;
         if touching("ball") {
             broadcast "levelup";
         }
+        change_x 1;
     } else {
         switch_costume "exit_closed";
     }

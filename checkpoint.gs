@@ -6,17 +6,14 @@ sounds "assets/checkpoint_collect.mp3";
 
 set_layer_order 3;
 
-proc create_object x, y {
-    x = $x;
-    y = $y;
+proc create_object checkpoint_entity entity {
     is_collected = false;
-    new_object;
 }
 
 proc setup {
     costume_width = checkpoint_width;
     costume_height = checkpoint_height;
-    LDTK_CREATE_OBJECTS(level_checkpoint, level_checkpoint_lens)
+    LDTK_CREATE_OBJECTS(level_checkpoint)
 }
 
 proc spawn {}
