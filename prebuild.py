@@ -132,6 +132,16 @@ for entity in project.defs.entities:
     sprite = PIL.Image.fromarray(sprite_data)
     sprite.save(f"assets/{entity.identifier}.png")
 
+sprite = sheet.crop((40, 40, 40 + 16, 40 + 16))
+sprite_data = np.array(sprite)
+mask = (
+    (sprite_data[:, :, 0] == bg_color[0])
+    & (sprite_data[:, :, 1] == bg_color[1])
+    & (sprite_data[:, :, 2] == bg_color[2])
+)
+sprite_data[mask] = [0, 0, 0, 0]
+sprite = PIL.Image.fromarray(sprite_data)
+sprite.save("assets/largeball.png")
 
 doc = Document("level", defs_path)
 for level in project.levels:
@@ -164,6 +174,7 @@ types = {
     "ring": Struct("x:str,y:str"),
     "hring": Struct("x:str,y:str"),
     "life": Struct("x:str,y:str"),
+    "inflator": Struct("x:str,y:str"),
     "checkpoint": Struct("x:str,y:str"),
     "spider": Struct("x:str,y:str,end:point"),
 }

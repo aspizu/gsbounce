@@ -2,10 +2,15 @@
 %define SLOPE 1
 %define GRAVITY 4
 %define JUMP 67
-costumes "assets/ball.png", "assets/ball_dead.png";
+costumes "assets/ball.png", "assets/ball_dead.png", "assets/largeball.png";
 sounds "assets/ball_death.mp3";
 
-%define touching_solid() (touching("level") or touching("exit"))
+%define touching_solid() (                                                             \
+    touching("level")                                                                  \
+    or touching("exit")                                                                \
+    or touching("inflator")                                                            \
+    or (large_ball and (touching("ring") or touching("hring")))                        \
+)
 
 set_layer_order 5;
 
@@ -32,6 +37,7 @@ on "levelup" {
 }
 
 on "reset" {
+    large_ball = false;
     rings_remaining = 0;
 }
 
@@ -60,6 +66,86 @@ on "death" {
     }
 }
 
+
+on "inflate" { inflate; }
+
+proc inflate {
+    if large_ball {
+        stop_this_script;
+    }
+    large_ball = true;
+    switch_costume "largeball";
+    position;
+    local b = 2;
+    forever {
+        x += b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x -= b;
+
+        x -= b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x += b;
+
+        y += b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        y -= b;
+
+        y -= b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        y += b;
+
+        x += b;
+        y += b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x -= b;
+        y -= b;
+
+        x -= b;
+        y += b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x += b;
+        y -= b;
+
+        x += b;
+        y -= b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x -= b;
+        y += b;
+
+        x -= b;
+        y -= b;
+        position;
+        if not touching_solid() {
+            stop_this_script;
+        }
+        x += b;
+        y += b;
+
+        b++;
+    }
+}
+
 proc setup {
     checkpoint_x = level_ball_data[level_ball[level].ptr].x;
     checkpoint_y = level_ball_data[level_ball[level].ptr].y;
@@ -67,7 +153,11 @@ proc setup {
 }
 
 proc spawn {
-    switch_costume "ball";
+    if large_ball {
+        switch_costume "largeball";
+    } else {
+        switch_costume "ball";
+    }
     x = checkpoint_x + 7;
     y = checkpoint_y + 5;
     vel_x = 0;
