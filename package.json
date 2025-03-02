@@ -1,0 +1,17 @@
+{
+    "name": "gsbounce",
+    "module": "build.ts",
+    "type": "module",
+    "scripts": {
+        "build": "bun run build.ts"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@turbowarp/packager": "^3.4.1"
+    }
+}

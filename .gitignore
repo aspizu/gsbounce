@@ -4,3 +4,5 @@
 /defs/
 __pycache__
 *.sb3
+/node_modules/
+Packaged Project.html
