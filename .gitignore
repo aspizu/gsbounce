@@ -1,5 +1,6 @@
 /level/
 /assets/
+/assets.*/
 /defs/
 __pycache__
 *.sb3
