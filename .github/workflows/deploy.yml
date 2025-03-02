@@ -9,6 +9,7 @@ jobs:
                   bun-version: latest
             - uses: actions/checkout@v4
             - run: bun install
+            - run: sudo apt-get update && sudo apt-get install -y curl grep coreutils
             - run: >-
                   curl -L $( \
                   curl -s https://api.github.com/repos/aspizu/goboscript/releases/latest | \
