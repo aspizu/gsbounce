@@ -5,7 +5,7 @@ import FS from "fs/promises";
 
 await $`
 python prebuild.py
-goboscript build
+./goboscript build
 `;
 
 const projectData = await FS.readFile("gsbounce.sb3");
