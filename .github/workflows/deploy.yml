@@ -11,13 +11,13 @@ jobs:
             - run: bun install
             - run: sudo apt-get update && sudo apt-get install -y curl grep coreutils
             - run: >-
-                  curl -L $( \
-                  curl -s https://api.github.com/repos/aspizu/goboscript/releases/latest | \
-                  grep browser_download_url | \
-                  grep goboscript_Linux_x86_64.tar.gz | \
-                  cut -d '"' -f 4) -o goboscript.tar.gz
-                  tar -xvf goboscript.tar.gz
-                  chmod +x goboscript
+                  curl -L $(
+                  curl -s https://api.github.com/repos/aspizu/goboscript/releases/latest |
+                  grep browser_download_url |
+                  grep goboscript_Linux_x86_64.tar.gz |
+                  cut -d '"' -f 4) -o goboscript.tar.gz;
+                  tar -xvf goboscript.tar.gz;
+                  chmod +x goboscript;
             - run: bun run build
             - uses: actions/upload-pages-artifact@v3
     # Deployment job
