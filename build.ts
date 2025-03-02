@@ -1,3 +1,4 @@
+// @ts-ignore
 import Packager from "@turbowarp/packager";
 import { $ } from "bun";
 import FS from "fs/promises";
