@@ -19,6 +19,7 @@ jobs:
                   cut -d '"' -f 4) -o goboscript.tar.gz;
                   tar -xvf goboscript.tar.gz;
                   chmod +x goboscript;
+            - run: mv assets.programmerart assets
             - run: bun run build
             - uses: actions/upload-pages-artifact@v3
     # Deployment job
