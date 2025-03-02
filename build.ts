@@ -19,4 +19,5 @@ packager.project = loadedProject;
 
 const result = await packager.package();
 
-await FS.writeFile(result.filename, result.data);
+await FS.mkdir("_site", { recursive: true });
+await FS.writeFile("_site/index.html", result.data);
