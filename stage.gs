@@ -1,7 +1,9 @@
+%include std/cmd
 %include defs/level_data
+
 costumes "blank.svg";
 
-struct array2 { ptr, len };
+struct array2 { ptr, len }
 
 var camera_x = 0;
 var camera_y = 0;
@@ -12,8 +14,6 @@ var lives = 3;
 var level = 1;
 var time = 0;
 var large_ball = false;
-
-%include std/cmd
 
 onkey "t" {
     ask "";
