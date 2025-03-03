@@ -173,6 +173,8 @@ types = {
     "candle": Struct("x:str,y:str"),
     "ring": Struct("x:str,y:str"),
     "hring": Struct("x:str,y:str"),
+    "bigring": Struct("x:str,y:str"),
+    "bighring": Struct("x:str,y:str"),
     "life": Struct("x:str,y:str"),
     "inflator": Struct("x:str,y:str"),
     "checkpoint": Struct("x:str,y:str"),
