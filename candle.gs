@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/candle.png";
+costumes "assets/candle.svg";
 
 set_layer_order 4;
 

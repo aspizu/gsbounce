@@ -2,7 +2,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/spider.png";
+costumes "assets/spider.svg";
 
 set_layer_order 4;
 

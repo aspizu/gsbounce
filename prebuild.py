@@ -1,8 +1,13 @@
+# pyright: reportUnusedCallResult=false, reportAny=false, reportUnknownLambdaType=false, reportExplicitAny=false, reportRedeclaration=false
+
+from __future__ import annotations
+
+import base64
 import itertools
 import json
 import shutil
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 
 import matplotlib.colors as mcolors
 import numpy as np
@@ -13,15 +18,31 @@ import ldtk
 cwd = Path.cwd()
 
 
+class Vector:
+    def __init__(self, image: PIL.Image.Image) -> None:
+        self.image: PIL.Image.Image = image
+
+    def save(self, path: str | Path) -> None:
+        path: Path = Path(path)
+        self.image.save("temp.png")
+        data = base64.b64encode(open("temp.png", "rb").read()).decode("utf-8")
+        with path.open("w") as f:
+            f.write('<svg xmlns="http://www.w3.org/2000/svg"')
+            f.write('xmlns:xlink="http://www.w3.org/1999/xlink">')
+            f.write(f'<image width="{self.image.width}" height="{self.image.height}"')
+            f.write(f'xlink:href="data:image/png;base64,{data}" />')
+            f.write("</svg>")
+
+
 class Struct:
     def __init__(self, signature: str):
-        self.fields = {}
+        self.fields: dict[str, str] = {}
         for line in signature.split(","):
             name, type_name = line.split(":")
             self.fields[name] = type_name
 
     def to_gs(self, stype_name: str) -> str:
-        f = []
+        f: list[str] = []
         for name, type_name in self.fields.items():
             if type_name == "str":
                 f.append(name)
@@ -34,7 +55,7 @@ class Struct:
         return self.to_gs("").count(",") + 1
 
     def flatten(self, data: Any) -> list[object]:
-        d = []
+        d: list[object] = []
         for name, type_name in self.fields.items():
             if type_name == "str":
                 d.append(data[name])
@@ -46,8 +67,10 @@ class Struct:
 
 class Document:
     def __init__(self, document_name: str, path: str | Path) -> None:
-        self.path = Path(path) if isinstance(path, str) else path
-        self.file = self.path.joinpath(document_name).with_suffix(".gs").open("w")
+        self.path: Path = Path(path) if isinstance(path, str) else path
+        self.file: TextIO = (
+            self.path.joinpath(document_name).with_suffix(".gs").open("w")
+        )
 
     def create_list(
         self, list_name: str, items: list[object], type_name: str | None = None
@@ -67,7 +90,7 @@ class Document:
         type_name: str | None = None,
         struct: Struct | None = None,
     ) -> None:
-        data = []
+        data: list[object] = []
         ptr = 1
         for sublist in lists:
             length = len(sublist) if struct is None else len(sublist) // len(struct)
@@ -87,8 +110,8 @@ class Document:
     def create_costume(
         self, costume_path: str, costume_name: str | None = None
     ) -> None:
-        if costume_path is None:
-            self.file.write(f'costumes "{costume_name}";\n')
+        if costume_name is None or costume_name == Path(costume_path).stem:
+            self.file.write(f'costumes "{costume_path}";\n')
             return
         self.file.write(f'costumes "{costume_path}" as "{costume_name}";\n')
 
@@ -130,7 +153,7 @@ for entity in project.defs.entities:
     )
     sprite_data[mask] = [0, 0, 0, 0]
     sprite = PIL.Image.fromarray(sprite_data)
-    sprite.save(f"assets/{entity.identifier}.png")
+    Vector(sprite).save(f"assets/{entity.identifier}.svg")
 
 sprite = sheet.crop((40, 40, 40 + 16, 40 + 16))
 sprite_data = np.array(sprite)
@@ -141,22 +164,22 @@ mask = (
 )
 sprite_data[mask] = [0, 0, 0, 0]
 sprite = PIL.Image.fromarray(sprite_data)
-sprite.save("assets/largeball.png")
+Vector(sprite).save("assets/largeball.svg")
 
 doc = Document("level", defs_path)
 for level in project.levels:
     doc.create_costume(
-        f"level/simplified/{level.identifier}/tiles.png", level.identifier
+        f"level/simplified/{level.identifier}/tiles.svg", level.identifier
     )
 
 doc = Document("level_bg", defs_path)
 for level in project.levels:
-    doc.create_costume(f"level/simplified/{level.identifier}/_bg.png", level.identifier)
+    doc.create_costume(f"level/simplified/{level.identifier}/_bg.svg", level.identifier)
 
 doc = Document("level_decor", defs_path)
 for level in project.levels:
     doc.create_costume(
-        f"level/simplified/{level.identifier}/decor.png", level.identifier
+        f"level/simplified/{level.identifier}/decor.svg", level.identifier
     )
 
 doc = Document("level_data", defs_path)
@@ -201,3 +224,5 @@ for entity_type, entity_struct in types.items():
         type_name=type_name,
         struct=entity_struct,
     )
+
+Path("temp.png").unlink(missing_ok=True)

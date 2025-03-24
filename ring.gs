@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/ring.png", "assets/ring_collected.png";
+costumes "assets/ring.svg", "assets/ring_collected.svg";
 sounds "assets/ring_collect.mp3";
 
 set_layer_order 4;

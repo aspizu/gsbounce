@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/exit.png", "assets/exit_closed.png";
+costumes "assets/exit.svg", "assets/exit_closed.svg";
 
 set_layer_order 4;
 

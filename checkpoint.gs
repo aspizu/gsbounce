@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/checkpoint.png", "assets/checkpoint_collected.png";
+costumes "assets/checkpoint.svg", "assets/checkpoint_collected.svg";
 sounds "assets/checkpoint_collect.mp3";
 
 set_layer_order 4;

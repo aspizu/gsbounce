@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/inflator.png";
+costumes "assets/inflator.svg";
 
 set_layer_order 4;
 

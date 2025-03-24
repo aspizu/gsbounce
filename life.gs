@@ -1,7 +1,7 @@
 %include lib/game_object
 %include lib/ldtk
 %include defs/dims
-costumes "assets/life.png";
+costumes "assets/life.svg";
 sounds "assets/life_collect.mp3";
 
 set_layer_order 4;

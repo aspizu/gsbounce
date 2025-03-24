@@ -2,7 +2,7 @@
 %define SLOPE 1
 %define GRAVITY 4
 %define JUMP 67
-costumes "assets/ball.png", "assets/ball_dead.png", "assets/largeball.png";
+costumes "assets/ball.svg", "assets/ball_dead.svg", "assets/largeball.svg";
 sounds "assets/ball_death.mp3";
 
 %define touching_solid ((                                                              \
