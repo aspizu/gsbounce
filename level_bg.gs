@@ -1,3 +1,4 @@
+%define ORIGIN_IS_TOP_LEFT
 %include lib/game_object
 %include defs/level_bg
 

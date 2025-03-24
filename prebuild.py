@@ -28,8 +28,13 @@ class Vector:
         data = base64.b64encode(open("temp.png", "rb").read()).decode("utf-8")
         with path.open("w") as f:
             f.write('<svg xmlns="http://www.w3.org/2000/svg" ')
-            f.write('xmlns:xlink="http://www.w3.org/1999/xlink">\n')
-            f.write(f'<image width="{self.image.width}" height="{self.image.height}" ')
+            f.write('xmlns:xlink="http://www.w3.org/1999/xlink" ')
+            f.write(f'width="{self.image.width * 2}" ')
+            f.write(f'height="{self.image.height * 2}" ')
+            f.write(f'viewbox="0 0 {self.image.width * 2} {self.image.height * 2}">')
+            f.write(
+                f'<image x="{0.5 + self.image.width / 2}" y="{0.5 + self.image.height / 2}" width="{self.image.width}" height="{self.image.height}" '
+            )
             f.write(f'xlink:href="data:image/png;base64,{data}" />\n')
             f.write("</svg>")
 

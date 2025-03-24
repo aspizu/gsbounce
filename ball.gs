@@ -198,7 +198,7 @@ proc render {
 }
 
 proc position {
-    goto x - camera_x, y - camera_y;
+    goto (x-6) - camera_x, (y+6) - camera_y;
 }
 
 
