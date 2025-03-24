@@ -5,12 +5,12 @@
 costumes "assets/ball.png", "assets/ball_dead.png", "assets/largeball.png";
 sounds "assets/ball_death.mp3";
 
-%define touching_solid() (                                                             \
+%define touching_solid ((                                                              \
     touching("level")                                                                  \
     or touching("exit")                                                                \
     or touching("inflator")                                                            \
     or (large_ball and (touching("ring") or touching("hring")))                        \
-)
+))
 
 set_layer_order 5;
 
@@ -80,28 +80,28 @@ proc inflate {
     forever {
         x += b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x -= b;
 
         x -= b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x += b;
 
         y += b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         y -= b;
 
         y -= b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         y += b;
@@ -109,7 +109,7 @@ proc inflate {
         x += b;
         y += b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x -= b;
@@ -118,7 +118,7 @@ proc inflate {
         x -= b;
         y += b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x += b;
@@ -127,7 +127,7 @@ proc inflate {
         x += b;
         y -= b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x -= b;
@@ -136,7 +136,7 @@ proc inflate {
         x -= b;
         y -= b;
         position;
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         x += b;
@@ -205,31 +205,31 @@ proc position {
 proc move_x dx {
     x += $dx;
     position;
-    if touching_solid() {
+    if touching_solid {
         local i = 1;
-        until not touching_solid() or i > SLOPE {
+        until not touching_solid or i > SLOPE {
             y += 1;
             position;
             i++;
         }
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         y -= SLOPE;
         position;
         local i = 1;
-        until not touching_solid() or i > SLOPE {
+        until not touching_solid or i > SLOPE {
             y -= 1;
             position;
             i++;
         }
-        if not touching_solid() {
+        if not touching_solid {
             stop_this_script;
         }
         y += SLOPE;
         position;
         vel_x *= -0.5;
-        until not touching_solid() {
+        until not touching_solid {
             if $dx > 0 {
                 x -= 1;
             } else {
@@ -246,13 +246,13 @@ proc move_y dy {
     }
     y += $dy;
     position;
-    if touching_solid() {
+    if touching_solid {
         if abs(vel_y) > 2 {
             vel_y *= -0.5;
         } else {
             vel_y = 0;
         }
-        until not touching_solid() {
+        until not touching_solid {
             if $dy > 0 {
                 y -= 1;
             } else {
