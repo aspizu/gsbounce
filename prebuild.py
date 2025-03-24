@@ -27,10 +27,10 @@ class Vector:
         self.image.save("temp.png")
         data = base64.b64encode(open("temp.png", "rb").read()).decode("utf-8")
         with path.open("w") as f:
-            f.write('<svg xmlns="http://www.w3.org/2000/svg"')
-            f.write('xmlns:xlink="http://www.w3.org/1999/xlink">')
-            f.write(f'<image width="{self.image.width}" height="{self.image.height}"')
-            f.write(f'xlink:href="data:image/png;base64,{data}" />')
+            f.write('<svg xmlns="http://www.w3.org/2000/svg" ')
+            f.write('xmlns:xlink="http://www.w3.org/1999/xlink">\n')
+            f.write(f'<image width="{self.image.width}" height="{self.image.height}" ')
+            f.write(f'xlink:href="data:image/png;base64,{data}" />\n')
             f.write("</svg>")
 
 
@@ -169,17 +169,17 @@ Vector(sprite).save("assets/largeball.svg")
 doc = Document("level", defs_path)
 for level in project.levels:
     doc.create_costume(
-        f"level/simplified/{level.identifier}/tiles.svg", level.identifier
+        f"level/simplified/{level.identifier}/tiles.png", level.identifier
     )
 
 doc = Document("level_bg", defs_path)
 for level in project.levels:
-    doc.create_costume(f"level/simplified/{level.identifier}/_bg.svg", level.identifier)
+    doc.create_costume(f"level/simplified/{level.identifier}/_bg.png", level.identifier)
 
 doc = Document("level_decor", defs_path)
 for level in project.levels:
     doc.create_costume(
-        f"level/simplified/{level.identifier}/decor.svg", level.identifier
+        f"level/simplified/{level.identifier}/decor.png", level.identifier
     )
 
 doc = Document("level_data", defs_path)
